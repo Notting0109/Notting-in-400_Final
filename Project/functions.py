@@ -57,11 +57,12 @@ def get_album_by_id(albums, album_id):
     return None
 
 
-def render_album_card(album):
+def render_album_card(album, favorited=False):
     """Render a compact one-line card showing title, artist, year, and moods.
 
     Args:
         album: album dict.
+        favorited: if True, prefix with a star marker.
 
     Returns:
         Formatted string suitable for terminal display.
@@ -75,14 +76,17 @@ def render_album_card(album):
     if len(title) > 40:
         title = title[:37] + "..."
 
-    return f"  [{album['id']:>2}] {title} — {artist} ({year})   moods: {moods}"
+    star = "*" if favorited else " "
+    return f"  {star}[{album['id']:>2}] {title} — {artist} ({year})   moods: {moods}"
 
 
-def render_album_detail(album):
+def render_album_detail(album, favorited=False, note=""):
     """Render the full detail view of a single album.
 
     Args:
         album: album dict.
+        favorited: if True, show a Favorited marker.
+        note: optional personal note text.
 
     Returns:
         Multi-line formatted string with description and external links.
@@ -93,15 +97,21 @@ def render_album_detail(album):
     moods = ", ".join(album.get("moods", []))
     description = album.get("description", "(no description)")
 
+    star = "  * FAVORITED" if favorited else ""
+
     lines = [
         "─" * 60,
-        f"  {title}",
+        f"  {title}{star}",
         f"  {artist} · {year}",
         f"  Moods: {moods}",
         "",
         f'  "{description}"',
-        "",
     ]
+
+    if note:
+        lines += ["", f"  Your note: {note}"]
+
+    lines.append("")
 
     # Edge case: hide buttons if URL is missing
     spotify = album.get("spotify_url")

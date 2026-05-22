@@ -1,0 +1,11 @@
+# Generated user data
+Project/favorites.json
+Project/history.json
+Project/notes.json
+
+# Test artifacts
+Project/.test_tmp/
+
+# Python
+__pycache__/
+*.pyc

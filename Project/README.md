@@ -19,15 +19,39 @@ python3 test_app.py
 
 | File | Purpose |
 |---|---|
-| `main.py` | CLI entry point — handles the three screens (mood selector, album browser, album detail) |
-| `functions.py` | Core logic: `get_all_moods`, `filter_by_mood`, `get_album_by_id`, `render_album_card`, `render_album_detail` |
+| `main.py` | CLI entry point — 5 screens (home, browser, detail, favorites, history) |
+| `functions.py` | Core logic: filter, lookup, render |
 | `data.py` | Hardcoded list of 10 albums (MVP dataset) |
-| `test_app.py` | Tests for all 4 cases from PRD v2 Section 7 |
+| `storage.py` | Backend: persistent favorites, history, notes (JSON files) |
+| `test_app.py` | 7 tests covering both core logic and backend persistence |
+
+## Features
+
+### Frontend (in-memory)
+- Browse albums by mood
+- View album detail with description
+- Open Spotify preview / Amazon listing in browser
+
+### Backend (persistent, saved to JSON files)
+- **Favorites** — star albums to come back to (`favorites.json`)
+- **Listen history** — auto-logs every album you view (`history.json`)
+- **Personal notes** — add your own notes per album (`notes.json`)
 
 ## How to use
 
 1. Run `python3 main.py`
-2. Pick a mood (e.g. `late night`)
-3. Pick an album by its ID
-4. Press `s` to open Spotify or `a` to open Amazon in your browser
-5. Press `b` to go back, or `q` from the home screen to quit
+2. From the Home screen:
+   - Pick a **mood** to browse albums
+   - Press `f` to view your **favorites**
+   - Press `h` to view your **listen history**
+   - Press `q` to quit
+3. From the Album Detail screen:
+   - `s` — open Spotify in browser
+   - `a` — open Amazon in browser
+   - `f` / `u` — favorite / unfavorite
+   - `n` — add or edit a personal note
+   - `b` — go back
+
+## Data files
+
+`favorites.json`, `history.json`, `notes.json` are created automatically on first use and live in the `Project/` folder.
