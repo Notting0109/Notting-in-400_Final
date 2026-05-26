@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Not found{% endblock %}
+{% block content %}
+<section class="catalog">
+    <div class="section-head">
+        <h2>404 — not found</h2>
+        <p class="section-sub">That record isn't in the catalog. <a href="{{ url_for('index') }}">Back to home</a>.</p>
+    </div>
+</section>
+{% endblock %}

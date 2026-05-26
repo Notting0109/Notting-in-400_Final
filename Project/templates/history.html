@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="catalog">
+    <div class="section-head">
+        <h2>{{ title|lower }}</h2>
+        <p class="section-sub">{{ subtitle }}</p>
+    </div>
+
+    {% if entries %}
+    <div class="history-list">
+        {% for entry in entries %}
+        <a href="{{ url_for('album_detail', album_id=entry.album.id) }}" class="history-row">
+            <div class="history-cover">
+                <span class="album-letter">{{ entry.album.title[0]|upper }}</span>
+                {% if entry.album.id in favorites %}<span class="fav-star">★</span>{% endif %}
+            </div>
+            <div class="history-meta">
+                <span class="history-title">{{ entry.album.artist|lower }} — {{ entry.album.title|lower }}</span>
+                <span class="history-time">{{ entry.timestamp }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">{{ empty_message }}</div>
+    {% endif %}
+</section>
+{% endblock %}

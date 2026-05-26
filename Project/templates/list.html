@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<section class="catalog">
+    <div class="section-head">
+        <h2>{{ title|lower }}</h2>
+        <p class="section-sub">{{ subtitle }}</p>
+    </div>
+
+    {% if albums %}
+    <div class="album-grid">
+        {% for album in albums %}
+        <a href="{{ url_for('album_detail', album_id=album.id) }}" class="album-card">
+            <div class="album-cover">
+                <span class="album-letter">{{ album.title[0]|upper }}</span>
+                {% if album.id in favorites %}<span class="fav-star">★</span>{% endif %}
+            </div>
+            <div class="album-meta">
+                <span class="album-title">{{ album.artist|lower }} — {{ album.title|lower }}</span>
+                <span class="album-year">{{ album.year }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">{{ empty_message }}</div>
+    {% endif %}
+</section>
+{% endblock %}

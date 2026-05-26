@@ -1,0 +1,467 @@
+/* =========================================================
+   Vinyl Discovery — styled after the Figma "Record & vinyl
+   market" reference. Warm cream background, heavy black
+   typography, pill buttons, generous whitespace.
+   ========================================================= */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #f3f0e9;
+    --bg-card: #ffffff;
+    --ink: #111111;
+    --ink-soft: #555555;
+    --line: #e0dcd2;
+    --accent: #111111;
+    --accent-ink: #ffffff;
+}
+
+html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Top nav ---------- */
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 64px;
+    border-bottom: 1px solid var(--line);
+}
+.topnav .logo {
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+}
+.topnav nav {
+    display: flex;
+    gap: 32px;
+}
+.topnav nav a {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink-soft);
+    transition: color 0.15s;
+}
+.topnav nav a:hover { color: var(--ink); }
+
+main { padding: 0 64px; max-width: 1280px; margin: 0 auto; }
+
+/* ---------- Hero ---------- */
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+    padding: 80px 0 120px;
+    position: relative;
+}
+.hero h1 {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+}
+.hero-sub {
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 380px;
+    margin-bottom: 40px;
+    line-height: 1.5;
+}
+.hero-vinyl {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+.vinyl {
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at center, transparent 80px, #1a1a1a 82px, #2a2a2a 84px, #1a1a1a 90px, #2a2a2a 92px, #1a1a1a 100px),
+        repeating-radial-gradient(circle at center, #111 0 1px, #222 1px 2px),
+        #111;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+.vinyl-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid #444;
+}
+.vinyl-label::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #111;
+}
+
+/* ---------- CTA / pill button ---------- */
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 8px 14px 28px;
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.cta:hover { background: var(--ink); color: var(--accent-ink); }
+.cta-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--accent-ink);
+    font-size: 14px;
+    transition: background 0.15s;
+}
+.cta:hover .cta-dot { background: var(--accent-ink); color: var(--ink); }
+.cta-outline { background: var(--bg); }
+.cta-favorited {
+    background: var(--ink);
+    color: var(--accent-ink);
+}
+
+/* ---------- Section heads ---------- */
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.section-head h2 {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+.section-sub { color: var(--ink-soft); font-size: 14px; }
+
+/* ---------- Mood pills ---------- */
+.moods { display: flex; gap: 8px; flex-wrap: wrap; }
+.mood-pill {
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--bg-card);
+    transition: all 0.15s;
+}
+.mood-pill:hover { border-color: var(--ink); color: var(--ink); }
+.mood-pill.active {
+    background: var(--ink);
+    color: var(--accent-ink);
+    border-color: var(--ink);
+}
+.mood-pill.small { padding: 4px 12px; font-size: 12px; }
+
+/* ---------- Album grid ---------- */
+.catalog { padding: 80px 0; }
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.album-card {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s;
+}
+.album-card:hover { transform: translateY(-4px); }
+.album-cover {
+    aspect-ratio: 1 / 1;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.album-letter {
+    font-size: 96px;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+}
+.fav-star {
+    position: absolute;
+    top: 12px; right: 16px;
+    font-size: 20px;
+    color: #f5a623;
+}
+.album-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding: 0 4px;
+    font-size: 12px;
+}
+.album-title {
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    margin-right: 12px;
+}
+.album-year {
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+}
+
+.empty {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--ink-soft);
+    font-size: 16px;
+}
+
+/* ---------- About / Features sections ---------- */
+.about, .features { padding: 80px 0; }
+.about h2, .features h2 {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+}
+.about-row, .features-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+.about-image, .feature-image {
+    aspect-ratio: 4 / 5;
+    background:
+        linear-gradient(135deg, #2a3f5f 0%, #1a2540 100%);
+    border-radius: 12px;
+}
+.about-text p { margin-bottom: 16px; font-size: 14px; line-height: 1.7; }
+.about-text strong { font-weight: 700; color: var(--ink); }
+
+.feature-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+}
+.feature-label { font-weight: 700; color: var(--ink-soft); }
+
+.benefit-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+}
+.benefit-pill {
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--ink-soft);
+}
+
+/* ---------- Detail page ---------- */
+.detail { padding: 60px 0 80px; }
+.back-link {
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin-bottom: 40px;
+    display: inline-block;
+}
+.back-link:hover { color: var(--ink); }
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+}
+.detail-cover {
+    aspect-ratio: 1 / 1;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.detail-letter {
+    font-size: 240px;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+}
+.detail-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+}
+.detail-title {
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.detail-artist {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+}
+.detail-description {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 32px;
+}
+.detail-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.inline-form { display: inline-block; }
+.inline-form button { font: inherit; }
+
+.notes-block {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+}
+.notes-block h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+.notes-block textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-card);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    margin-bottom: 16px;
+}
+.notes-block textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+}
+
+/* ---------- History list ---------- */
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-card);
+    transition: border-color 0.15s;
+}
+.history-row:hover { border-color: var(--ink); }
+.history-cover {
+    aspect-ratio: 1;
+    background: var(--bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.history-cover .album-letter { font-size: 28px; }
+.history-cover .fav-star { top: 2px; right: 4px; font-size: 12px; }
+.history-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.history-title { font-size: 14px; color: var(--ink); }
+.history-time {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    margin-top: 120px;
+    background: #0a0a0a;
+    color: #eee;
+    padding: 48px 64px;
+}
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.footer-email { font-size: 14px; font-weight: 500; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 14px; color: #999; }
+.footer-links a:hover { color: #fff; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    main, .topnav, .footer { padding-left: 24px; padding-right: 24px; }
+    .hero { grid-template-columns: 1fr; padding: 40px 0 60px; }
+    .hero h1 { font-size: 64px; }
+    .vinyl { width: 280px; height: 280px; margin: 0 auto; }
+    .vinyl-label { width: 90px; height: 90px; }
+    .album-grid { grid-template-columns: repeat(2, 1fr); }
+    .section-head h2, .about h2, .features h2 { font-size: 36px; }
+    .detail-grid, .about-row, .features-row { grid-template-columns: 1fr; gap: 32px; }
+    .detail-title { font-size: 40px; }
+    .detail-letter { font-size: 140px; }
+}

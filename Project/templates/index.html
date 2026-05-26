@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Record & vinyl discovery{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-text">
+        <h1>Record<br>& vinyl<br>discovery</h1>
+        <p class="hero-sub">Expand your vinyl record collection and find the perfect album for any mood.</p>
+        <a href="#catalog" class="cta">
+            <span>select in the catalog</span>
+            <span class="cta-dot">→</span>
+        </a>
+    </div>
+    <div class="hero-vinyl">
+        <div class="vinyl">
+            <div class="vinyl-label"></div>
+        </div>
+    </div>
+</section>
+
+<section id="catalog" class="catalog">
+    <div class="section-head">
+        <h2>{% if active_mood %}{{ active_mood }}{% else %}new products{% endif %}</h2>
+        <div class="moods">
+            <a href="{{ url_for('index') }}"
+               class="mood-pill {% if not active_mood %}active{% endif %}">all</a>
+            {% for m in moods %}
+            <a href="{{ url_for('browse_mood', mood=m) }}"
+               class="mood-pill {% if active_mood == m %}active{% endif %}">{{ m }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if albums %}
+    <div class="album-grid">
+        {% for album in albums %}
+        <a href="{{ url_for('album_detail', album_id=album.id) }}" class="album-card">
+            <div class="album-cover">
+                <span class="album-letter">{{ album.title[0]|upper }}</span>
+                {% if album.id in favorites %}<span class="fav-star">★</span>{% endif %}
+            </div>
+            <div class="album-meta">
+                <span class="album-title">{{ album.artist|lower }} — {{ album.title|lower }}</span>
+                <span class="album-year">{{ album.year }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">No albums found for this mood yet. Try another!</div>
+    {% endif %}
+</section>
+
+<section class="about">
+    <h2>vinyl.discovery</h2>
+    <div class="about-row">
+        <div class="about-image"></div>
+        <div class="about-text">
+            <p><strong>(about)</strong> A curated tool for new vinyl listeners. We tag every album by mood — late night, focus, hype, chill — so you spend less time deciding and more time listening.</p>
+            <p>Click any album for a full description, a Spotify preview, and a link to buy on Amazon. Save your favorites and keep a private listening journal.</p>
+            <p>Thank you for using vinyl.discovery!</p>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2>features</h2>
+    <div class="features-row">
+        <div class="feature-image"></div>
+        <div class="feature-text">
+            <div class="feature-item">
+                <span class="feature-label">(browse)</span>
+                <span>Filter the catalog by mood. Each album shows its tags, year, and a one-line description.</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-label">(favorites)</span>
+                <span>Star albums you love. They're saved between sessions so you can come back to them.</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-label">(notes)</span>
+                <span>Write your own notes on each album — perfect for a personal listening journal.</span>
+            </div>
+
+            <div class="benefit-pills">
+                <span class="benefit-pill">curated picks</span>
+                <span class="benefit-pill">a wide range of moods</span>
+                <span class="benefit-pill">streaming previews</span>
+                <span class="benefit-pill">vinyl marketplace</span>
+                <span class="benefit-pill">personal notes</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

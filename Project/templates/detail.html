@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ album.title }} — {{ album.artist }}{% endblock %}
+
+{% block content %}
+<section class="detail">
+    <a class="back-link" href="{{ url_for('index') }}">← back to catalog</a>
+
+    <div class="detail-grid">
+        <div class="detail-cover">
+            <span class="detail-letter">{{ album.title[0]|upper }}</span>
+        </div>
+
+        <div class="detail-info">
+            <div class="detail-meta-top">
+                <span>{{ album.year }}</span>
+                <span>·</span>
+                {% for m in album.moods %}
+                <a class="mood-pill small" href="{{ url_for('browse_mood', mood=m) }}">{{ m }}</a>
+                {% endfor %}
+            </div>
+
+            <h1 class="detail-title">{{ album.title }}</h1>
+            <h2 class="detail-artist">{{ album.artist }}</h2>
+
+            <p class="detail-description">{{ album.description }}</p>
+
+            <div class="detail-actions">
+                {% if album.spotify_url %}
+                <a href="{{ album.spotify_url }}" target="_blank" class="cta">
+                    <span>preview on spotify</span>
+                    <span class="cta-dot">↗</span>
+                </a>
+                {% endif %}
+                {% if album.amazon_url %}
+                <a href="{{ album.amazon_url }}" target="_blank" class="cta cta-outline">
+                    <span>buy on amazon</span>
+                    <span class="cta-dot">↗</span>
+                </a>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('toggle_favorite', album_id=album.id) }}" class="inline-form">
+                    <input type="hidden" name="next" value="{{ url_for('album_detail', album_id=album.id) }}">
+                    <button type="submit" class="cta {% if favorited %}cta-favorited{% else %}cta-outline{% endif %}">
+                        <span>{% if favorited %}★ favorited{% else %}☆ add to favorites{% endif %}</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="notes-block">
+        <h3>your private note</h3>
+        <form method="POST" action="{{ url_for('save_note', album_id=album.id) }}">
+            <textarea name="note" rows="4"
+                placeholder="Write what this record means to you...">{{ note }}</textarea>
+            <button type="submit" class="cta">
+                <span>save note</span>
+                <span class="cta-dot">→</span>
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}
