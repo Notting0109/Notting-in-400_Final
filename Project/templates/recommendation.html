@@ -7,7 +7,11 @@
 
     <div class="section-head">
         <h2>your AI picks</h2>
+        {% if from_photo and scene %}
+        <p class="section-sub">📷 the AI saw: "{{ scene }}"</p>
+        {% else %}
         <p class="section-sub">for "{{ user_input }}"</p>
+        {% endif %}
     </div>
 
     {% if error %}

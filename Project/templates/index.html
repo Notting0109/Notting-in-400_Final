@@ -11,6 +11,19 @@
                    placeholder="e.g. cooking dinner with friends..." required>
             <button type="submit" class="ai-submit" title="Ask the AI">→</button>
         </form>
+
+        <form class="photo-box" method="POST" action="{{ url_for('recommend_photo') }}"
+              enctype="multipart/form-data">
+            <label class="photo-label">
+                <input type="file" name="photo" accept="image/*" class="photo-input"
+                       onchange="this.form.querySelector('.photo-name').textContent = this.files[0] ? this.files[0].name : 'no file'; this.form.querySelector('.photo-submit').disabled = !this.files[0];">
+                <span class="photo-icon">📷</span>
+                <span>upload a photo of your surroundings</span>
+            </label>
+            <span class="photo-name"></span>
+            <button type="submit" class="photo-submit" disabled>analyze →</button>
+        </form>
+
         <a href="#catalog" class="browse-link">or browse the full catalog ↓</a>
     </div>
     <div class="hero-vinyl">

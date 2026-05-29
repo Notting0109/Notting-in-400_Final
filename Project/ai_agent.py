@@ -11,6 +11,7 @@ Required environment variables:
 The key is never hardcoded — it is read from the environment at call time.
 """
 
+import base64
 import json
 import os
 
@@ -133,6 +134,106 @@ def recommend_albums(user_input, albums, max_picks=3):
             "ids": [],
             "reasoning": "",
             "error": f"AI request failed: {exc}",
+        }
+
+
+def recommend_from_photo(image_bytes, mime_type, albums, max_picks=3):
+    """Analyze a user-uploaded photo and recommend albums for its vibe.
+
+    Uses a Doubao VISION model (multimodal). The model both describes the
+    scene and picks albums from the catalog, in a single call.
+
+    Args:
+        image_bytes: raw bytes of the uploaded image.
+        mime_type: e.g. "image/jpeg" or "image/png".
+        albums: the album list (data.ALBUMS).
+        max_picks: maximum number of albums to recommend.
+
+    Returns:
+        dict with keys:
+          - "ids":       list[int] of recommended album IDs (validated)
+          - "scene":     str — what the AI saw / the mood it inferred
+          - "reasoning": str — why these albums fit
+          - "error":     str or None
+
+    Never raises — any failure is returned as an "error" string.
+    """
+    api_key = os.environ.get("ARK_API_KEY")
+    vision_model = os.environ.get("DOUBAO_VISION_MODEL_ID")
+
+    if not api_key or not vision_model:
+        return {
+            "ids": [],
+            "scene": "",
+            "reasoning": "",
+            "error": "Photo AI is not configured. Set ARK_API_KEY and DOUBAO_VISION_MODEL_ID.",
+        }
+
+    if not image_bytes:
+        return {"ids": [], "scene": "", "reasoning": "", "error": "No image was uploaded."}
+
+    valid_ids = {a["id"] for a in albums}
+    catalog = _build_catalog_text(albums)
+
+    # Encode the image as a base64 data URL (OpenAI-compatible vision format)
+    b64 = base64.b64encode(image_bytes).decode("utf-8")
+    data_url = f"data:{mime_type};base64,{b64}"
+
+    system_prompt = (
+        "You are a vinyl album recommender that reads the MOOD of a photo. "
+        "You MUST only recommend albums from the catalog provided. "
+        "Never invent albums. Respond ONLY with a JSON object, no extra prose."
+    )
+    user_text = (
+        "Look at this photo and infer the mood / setting / time of day. "
+        f"Then pick {max_picks} or fewer albums from this catalog that match that vibe:\n\n"
+        f"{catalog}\n\n"
+        'Respond with JSON exactly like this:\n'
+        '{"scene": "one short sentence describing what you see and the mood", '
+        '"recommended_ids": [1, 5], '
+        '"reasoning": "one short friendly paragraph on why these fit the photo"}'
+    )
+
+    try:
+        client = OpenAI(api_key=api_key, base_url=ARK_BASE_URL)
+        resp = client.chat.completions.create(
+            model=vision_model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": user_text},
+                        {"type": "image_url", "image_url": {"url": data_url}},
+                    ],
+                },
+            ],
+            temperature=0.7,
+        )
+        content = resp.choices[0].message.content
+        data = _extract_json(content)
+
+        raw_ids = data.get("recommended_ids", [])
+        ids = [int(i) for i in raw_ids if int(i) in valid_ids][:max_picks]
+        scene = str(data.get("scene", "")).strip()
+        reasoning = str(data.get("reasoning", "")).strip()
+
+        if not ids:
+            return {
+                "ids": [],
+                "scene": scene,
+                "reasoning": reasoning,
+                "error": "The AI couldn't match this photo to an album. Try another.",
+            }
+
+        return {"ids": ids, "scene": scene, "reasoning": reasoning, "error": None}
+
+    except Exception as exc:  # noqa: BLE001
+        return {
+            "ids": [],
+            "scene": "",
+            "reasoning": "",
+            "error": f"Photo AI request failed: {exc}",
         }
 
 

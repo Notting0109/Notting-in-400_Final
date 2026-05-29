@@ -13,7 +13,7 @@ import os
 
 from flask import Flask, abort, redirect, render_template, request, url_for
 
-from ai_agent import recommend_albums
+from ai_agent import recommend_albums, recommend_from_photo
 from data import ALBUMS
 from functions import filter_by_mood, get_album_by_id, get_all_moods
 from storage import (
@@ -28,6 +28,11 @@ from storage import (
 )
 
 app = Flask(__name__)
+
+# Limit uploads to 8 MB to avoid huge images
+app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
+
+ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
 
 IMAGES_DIR = os.path.join(app.static_folder, "images")
 
@@ -83,6 +88,38 @@ def recommend():
         reasoning=result["reasoning"],
         error=result["error"],
         favorites=set(load_favorites()),
+    )
+
+
+# ---------- AI recommendation from photo ----------
+
+@app.route("/recommend-photo", methods=["POST"])
+def recommend_photo():
+    """Take an uploaded photo and ask the vision AI for album picks."""
+    file = request.files.get("photo")
+
+    if file is None or file.filename == "":
+        result = {"ids": [], "scene": "", "reasoning": "",
+                  "error": "Please choose a photo first."}
+    elif file.mimetype not in ALLOWED_IMAGE_TYPES:
+        result = {"ids": [], "scene": "", "reasoning": "",
+                  "error": "Please upload a JPG, PNG, or WebP image."}
+    else:
+        image_bytes = file.read()
+        result = recommend_from_photo(image_bytes, file.mimetype, ALBUMS)
+
+    recommended = [get_album_by_id(ALBUMS, i) for i in result["ids"]]
+    recommended = [a for a in recommended if a is not None]
+
+    return render_template(
+        "recommendation.html",
+        user_input=result.get("scene") or "your photo",
+        albums=recommended,
+        reasoning=result["reasoning"],
+        error=result["error"],
+        favorites=set(load_favorites()),
+        from_photo=True,
+        scene=result.get("scene", ""),
     )
 
 

@@ -156,6 +156,48 @@ main { padding: 0 64px; max-width: 1280px; margin: 0 auto; }
 }
 .browse-link:hover { color: var(--ink); }
 
+/* ---------- Photo upload box (hero) ---------- */
+.photo-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 440px;
+    margin-bottom: 20px;
+}
+.photo-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1.5px dashed var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+.photo-label:hover { border-color: var(--ink); color: var(--ink); }
+.photo-input { display: none; }
+.photo-icon { font-size: 15px; }
+.photo-name { font-size: 12px; color: var(--ink-soft); }
+.photo-submit {
+    padding: 8px 18px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--accent-ink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+.photo-submit:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
 /* ---------- AI reasoning panel ---------- */
 .ai-reasoning {
     display: flex;
