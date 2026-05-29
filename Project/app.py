@@ -9,8 +9,11 @@ Run with:
 Then open http://127.0.0.1:5000 in your browser.
 """
 
+import os
+
 from flask import Flask, abort, redirect, render_template, request, url_for
 
+from ai_agent import recommend_albums
 from data import ALBUMS
 from functions import filter_by_mood, get_album_by_id, get_all_moods
 from storage import (
@@ -26,6 +29,25 @@ from storage import (
 
 app = Flask(__name__)
 
+IMAGES_DIR = os.path.join(app.static_folder, "images")
+
+
+def cover_url_or_none(album):
+    """Return a Flask static URL if the cover file exists on disk, else None.
+    The template falls back to a letter placeholder when this is None.
+    """
+    name = album.get("cover")
+    if not name:
+        return None
+    path = os.path.join(IMAGES_DIR, name)
+    if not os.path.exists(path):
+        return None
+    return url_for("static", filename=f"images/{name}")
+
+
+# Make the helper available inside Jinja templates
+app.jinja_env.globals["cover_url"] = cover_url_or_none
+
 
 # ---------- Home ----------
 
@@ -40,6 +62,27 @@ def index():
         moods=moods,
         favorites=favorites,
         active_mood=None,
+    )
+
+
+# ---------- AI recommendation ----------
+
+@app.route("/recommend", methods=["POST"])
+def recommend():
+    """Take the user's free-text mood and ask the AI agent for picks."""
+    user_input = request.form.get("mood_input", "").strip()
+    result = recommend_albums(user_input, ALBUMS)
+
+    recommended = [get_album_by_id(ALBUMS, i) for i in result["ids"]]
+    recommended = [a for a in recommended if a is not None]
+
+    return render_template(
+        "recommendation.html",
+        user_input=user_input,
+        albums=recommended,
+        reasoning=result["reasoning"],
+        error=result["error"],
+        favorites=set(load_favorites()),
     )
 
 

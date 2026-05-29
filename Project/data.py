@@ -1,6 +1,12 @@
 """
 Hardcoded album dataset for the Vinyl Album Discovery Tool MVP.
 Contains 10 curated albums tagged by listening mood.
+
+Cover images:
+  Put image files in  static/images/  and reference them in the "cover"
+  field below (filename only, e.g. "kind_of_blue.jpg").
+  If the file is missing or "cover" is None, the UI falls back to a
+  letter placeholder.
 """
 
 ALBUMS = [
@@ -13,6 +19,7 @@ ALBUMS = [
         "description": "The best-selling jazz album of all time. Perfect for reading or winding down.",
         "spotify_url": "https://open.spotify.com/album/1weenld61qoidwYuZ1GESA",
         "amazon_url": "https://www.amazon.com/dp/B000002ADT",
+        "cover": "kind_of_blue.jpg",
     },
     {
         "id": 2,
@@ -23,6 +30,7 @@ ALBUMS = [
         "description": "A pop-rock classic full of harmonies and heartbreak. Sounds great on a Sunday morning.",
         "spotify_url": "https://open.spotify.com/album/1bt6q2SruMsBtcerNVtpZB",
         "amazon_url": "https://www.amazon.com/dp/B000W23HCA",
+        "cover": "rumours.jpg",
     },
     {
         "id": 3,
@@ -33,6 +41,7 @@ ALBUMS = [
         "description": "Disco-funk reborn. Side B is one of the most fun vinyl flips you'll ever do.",
         "spotify_url": "https://open.spotify.com/album/4m2880jivSbbyEGAKfITCa",
         "amazon_url": "https://www.amazon.com/dp/B00CRTRRG4",
+        "cover": "random_access_memories.jpg",
     },
     {
         "id": 4,
@@ -43,6 +52,7 @@ ALBUMS = [
         "description": "Dreamy psych-pop. Great for headphones at midnight.",
         "spotify_url": "https://open.spotify.com/album/79dL7FLiJFOO0EoehUHQBv",
         "amazon_url": "https://www.amazon.com/dp/B0119SGS80",
+        "cover": "currents.jpg",
     },
     {
         "id": 5,
@@ -53,6 +63,7 @@ ALBUMS = [
         "description": "A quiet, layered R&B masterpiece. Sounds especially intimate on vinyl.",
         "spotify_url": "https://open.spotify.com/album/3mH6qwIy9crq0I9YQbOuRf",
         "amazon_url": "https://www.amazon.com/dp/B07BPSLT9G",
+        "cover": "blonde.jpg",
     },
     {
         "id": 6,
@@ -63,6 +74,7 @@ ALBUMS = [
         "description": "Stevie at his peak. Every track sounds like sunshine.",
         "spotify_url": "https://open.spotify.com/album/0FaSnSoH3SDXOdEUWlmnL5",
         "amazon_url": "https://www.amazon.com/dp/B000002ARV",
+        "cover": "songs_in_the_key_of_life.jpg",
     },
     {
         "id": 7,
@@ -73,6 +85,7 @@ ALBUMS = [
         "description": "Warm, melodic, and surprisingly accessible Radiohead. A great vinyl flow.",
         "spotify_url": "https://open.spotify.com/album/5vkqYmiPBYLaalcmjujWxK",
         "amazon_url": "https://www.amazon.com/dp/B0793D9SVB",
+        "cover": "in_rainbows.jpg",
     },
     {
         "id": 8,
@@ -83,6 +96,7 @@ ALBUMS = [
         "description": "The bestselling album in history. Pure energy from start to finish.",
         "spotify_url": "https://open.spotify.com/album/2ANVost0y2y52ema1E9xAZ",
         "amazon_url": "https://www.amazon.com/dp/B00138H17C",
+        "cover": "thriller.jpg",
     },
     {
         "id": 9,
@@ -93,6 +107,7 @@ ALBUMS = [
         "description": "A heartbreak album recorded in a cabin. Quiet and devastating.",
         "spotify_url": "https://open.spotify.com/album/1KbjVHJVMA1HhFXxbCpoTH",
         "amazon_url": "https://www.amazon.com/dp/B0011VEHM0",
+        "cover": "for_emma.jpg",
     },
     {
         "id": 10,
@@ -103,5 +118,6 @@ ALBUMS = [
         "description": "French-house perfection. Side A flips into Side B effortlessly.",
         "spotify_url": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc",
         "amazon_url": "https://www.amazon.com/dp/B00005NPSP",
+        "cover": "discovery.jpg",
     },
 ]

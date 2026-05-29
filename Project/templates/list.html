@@ -13,7 +13,11 @@
         {% for album in albums %}
         <a href="{{ url_for('album_detail', album_id=album.id) }}" class="album-card">
             <div class="album-cover">
+                {% if cover_url(album) %}
+                <img src="{{ cover_url(album) }}" alt="{{ album.title }}" class="cover-img">
+                {% else %}
                 <span class="album-letter">{{ album.title[0]|upper }}</span>
+                {% endif %}
                 {% if album.id in favorites %}<span class="fav-star">★</span>{% endif %}
             </div>
             <div class="album-meta">

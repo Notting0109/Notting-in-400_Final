@@ -9,8 +9,21 @@ Two front-ends, one backend:
 ## Setup (one-time)
 
 ```bash
-pip3 install flask
+pip3 install -r requirements.txt
 ```
+
+### Enable the AI recommender (optional)
+
+The homepage has an AI agent that turns a free-text mood into album picks.
+It uses Doubao (Volcengine Ark). Set two environment variables in `~/.zshrc`:
+
+```bash
+export ARK_API_KEY="ark-your-real-key"
+export DOUBAO_MODEL_ID="doubao-1-5-lite-32k-250115"
+```
+
+Then `source ~/.zshrc`. See `.env.example` for the template.
+If these aren't set, the rest of the app still works — only the AI box shows a friendly error.
 
 ## Run the web app (recommended)
 
@@ -39,7 +52,8 @@ python3 test_app.py
 
 | File | Purpose |
 |---|---|
-| `app.py` | Flask web app — routes for catalog, detail, favorites, history, notes |
+| `app.py` | Flask web app — routes for catalog, detail, favorites, history, notes, AI recommend |
+| `ai_agent.py` | AI recommender — calls Doubao to turn a mood into album picks |
 | `main.py` | CLI entry point — same features for terminal users |
 | `functions.py` | Core logic: filter by mood, lookup, render |
 | `data.py` | Hardcoded list of 10 albums (MVP dataset) |
