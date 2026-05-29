@@ -193,4 +193,5 @@ def not_found(_e):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # Port 8000 — avoids macOS AirPlay Receiver, which occupies 5000 and returns 403.
+    app.run(debug=True, port=8000)
